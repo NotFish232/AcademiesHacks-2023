@@ -91,10 +91,10 @@ def main() -> None:
 
     #gen.eval()
     disc.eval()
+    print(sum(i.numel() for i in disc.parameters()))
     with T.no_grad():
         #y = gen(latent_space)
-        y_hat = disc(T.randn((1, 3, 28, 28)))
-    print(sum(i.numel() for i in disc.parameters()))
+        y_hat = disc(T.randn((1, 3, 256, 256)))
 
 
 if __name__ == "__main__":
