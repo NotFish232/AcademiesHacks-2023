@@ -30,7 +30,7 @@ class Generator(nn.Module):
 
     def forward(self: Self, x: T.Tensor) -> T.Tensor:
         x = self.fully_connected_layers(x)
-        x = x.view(-1, 256, 15, 15)
+        x = x.view(-1, 128, 15, 15)
         x = self.inverse_convolutional_layers(x)
         x = self.convolutional_layers(x)
         return x
