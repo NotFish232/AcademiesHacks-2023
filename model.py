@@ -87,7 +87,7 @@ def main() -> None:
     print(f"Generator: {sum(i.numel() for i in gen.parameters())}")
     print(f"Discriminator: {sum(i.numel() for i in disc.parameters())}")
     with T.no_grad():
-        y = gen(T.randn((1, 2048)))
+        y = gen(T.randn((1, 1024)))
         y_hat = disc(y)
     print(y.shape)
     print(y_hat.shape)
