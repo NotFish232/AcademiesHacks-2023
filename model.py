@@ -75,23 +75,25 @@ class Discriminator(nn.Module):
 
     def forward(self: Self, x: T.Tensor) -> T.Tensor:
         x = self.convolutional_layers(x)
-        x = x.view(-1, 512 * 30 * 30)
+        x = x.view(-1, 512 * 7 * 7)
         x = self.fully_connected_layers(x)
         return x
 
 
 def main() -> None:
-    #gen = Generator()
+    gen = Generator()
     disc = Discriminator()
 
-    #latent_space = T.randn((5, 2048))
-
-    #gen.eval()
+    gen.eval()
     disc.eval()
-    print(sum(i.numel() for i in disc.parameters()))
+
+    print(f"Generator: {sum(i.numel() for i in gen.parameters())}")
+    print(f"Discriminator: {sum(i.numel() for i in disc.parameters())}")
     with T.no_grad():
-        #y = gen(latent_space)
-        y_hat = disc(T.randn((1, 3, 256, 256)))
+        y = gen(T.randn((1, 2048)))
+        y_hat = disc(y)
+    print(y.shape)
+    print(y_hat.shape)
 
 
 if __name__ == "__main__":
