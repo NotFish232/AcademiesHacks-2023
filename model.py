@@ -44,34 +44,31 @@ class Discriminator(nn.Module):
         super().__init__()
         # (batch_size, 3, 256, 256)
         self.convolutional_layers = nn.Sequential(
-            nn.Conv2d(3, 64, 3), # (batch_size, 64, 254, 254)
+            nn.Conv2d(3, 64, 5), # (batch_size, 64, 252, 252)
             nn.LeakyReLU(),
             nn.BatchNorm2d(64),
-            nn.MaxPool2d(2, 2), # (batch_size, 64, 127, 127)
+            nn.MaxPool2d(4, 4), # (batch_size, 64, 63, 63)
             nn.Dropout2d(),
-            nn.Conv2d(64, 256, 4), # (batch_size, 256, 124, 124)
+            nn.Conv2d(64, 256, 4), # (batch_size, 256, 60, 60)
             nn.LeakyReLU(),
             nn.BatchNorm2d(256),
-            nn.MaxPool2d(2, 2), # (batch_size, 256, 62, 62)
+            nn.MaxPool2d(4, 4), # (batch_size, 256, 15, 15)
             nn.Dropout2d(),
-            nn.Conv2d(256, 512, 3), # (batch_size, 512, 60, 60)
+            nn.Conv2d(256, 512, 2), # (batch_size, 512, 14, 14)
             nn.LeakyReLU(),
             nn.BatchNorm2d(512),
-            nn.MaxPool2d(2, 2), # (batch_size, 512, 30, 30)
+            nn.MaxPool2d(2, 2), # (batch_size, 512, 7, 7)
             nn.Dropout2d()
         )
-        # (batch_size, 512 * 30 * 30)
+        # (batch_size, 512 * 7 * 7)
         self.fully_connected_layers = nn.Sequential(
-            nn.Linear(512 * 30 * 30, 8192),# (batch_size, 8192)
+            nn.Linear(512 * 7 * 7, 2048),# (batch_size, 2048)
             nn.Dropout(),
             nn.LeakyReLU(),
-            nn.Linear(8192, 1024), # (batch_size, 1024)
+            nn.Linear(2048, 256), # (batch_size, 256)
             nn.Dropout(),
             nn.LeakyReLU(),
-            nn.Linear(1024, 128), # (batch_size, 128)
-            nn.Dropout(),
-            nn.LeakyReLU(),
-            nn.Linear(128, 1), # (batch_size, 1)
+            nn.Linear(256, 1), # (batch_size, 1)
             nn.Dropout(),
             nn.Sigmoid()
         )
