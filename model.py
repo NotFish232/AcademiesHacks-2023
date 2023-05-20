@@ -9,13 +9,13 @@ class Generator(nn.Module):
         super().__init__()
         # (batch_size, 1024)
         self.fully_connected_layers = nn.Sequential(
-            nn.Linear(1024, 15 * 15 * 128),  # (batch_size, 15 * 15 * 128)
+            nn.Linear(1024, 15 * 15 * 256),  # (batch_size, 15 * 15 * 128)
             nn.Dropout(),
             nn.LeakyReLU(),
         )
         # (batch_size, 256, 15, 15)
         self.inverse_convolutional_layers = nn.Sequential(
-            nn.ConvTranspose2d(128, 64, 9, stride=4),  # (batch_size, 64, 65, 65)
+            nn.ConvTranspose2d(256, 64, 9, stride=4),  # (batch_size, 64, 65, 65)
             nn.Dropout2d(),
             nn.LeakyReLU(),
             nn.ConvTranspose2d(64, 32, 8, stride=4),  # (batch_size, 32, 264, 264)
